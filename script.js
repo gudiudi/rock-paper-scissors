@@ -5,6 +5,11 @@ let COMPUTER_SCORE = 0;
 function getPlayerChoice() {
   while (true) {
     let playerChoice = prompt("Enter your choice: rock, paper or scissors");
+
+    if (playerChoice === null) {
+      return null;
+    }
+
     const correctPlayerChoice = CHOICES.find((x) => x === playerChoice.toLowerCase());
     if (!correctPlayerChoice) {
       alert('Wrong choice!')
@@ -53,6 +58,13 @@ function playRound(playerChoice, computerChoice) {
   console.log(`Computer Score: ${COMPUTER_SCORE}`);
 }
 
-const playerChoice = getPlayerChoice();
-const computerChoice = getComputerChoice();
-playRound(playerChoice, computerChoice);
+function playGame(rounds) {
+  for (let i = 0; i < rounds; i++) {
+    const playerChoice = getPlayerChoice();
+    if (playerChoice === null) return alert("Game cancelled.");
+    const computerChoice = getComputerChoice();
+    playRound(playerChoice, computerChoice);
+  }
+}
+
+playGame(5);
