@@ -1,6 +1,7 @@
 let PLAYER_SCORE = 0;
 let COMPUTER_SCORE = 0;
 let ROUNDS = 0;
+let MAX_ROUNDS = 5;
 
 function getComputerChoice() {
   const choices = ['rock', 'paper', 'scissors'];
@@ -43,13 +44,13 @@ function playRound(playerChoice, computerChoice) {
   updateScoreBoard(PLAYER_SCORE, COMPUTER_SCORE);
 
   ROUNDS++;
-  if (ROUNDS === 5) {
+  if (ROUNDS === MAX_ROUNDS) {
     if (PLAYER_SCORE > COMPUTER_SCORE) {
       updateGameOutcomeBoard('You won the game!');
     } else if (PLAYER_SCORE < COMPUTER_SCORE) {
       updateGameOutcomeBoard('You lost the game!');
     } else {
-      updateGameOutcomeBoard('It\'s a tie!');
+      updateGameOutcomeBoard('You drew the game');
     }
   }
 }
@@ -67,10 +68,19 @@ function updateScoreBoard(playerScore, computerScore) {
   computerScoreBoard.textContent = computerScore;
 }
 
+function gameReset() {
+  PLAYER_SCORE = 0;
+  COMPUTER_SCORE = 0;
+  ROUNDS = 0;
+  updateScoreBoard(0, 0);
+  updateGameOutcomeBoard('');
+}
+
 const buttons = document.querySelectorAll("button");
 
 buttons.forEach((button) => { // For alternative use Event Delegation?
   button.addEventListener("click", (e) => {
+    if (ROUNDS >= MAX_ROUNDS) gameReset();
     const computerChoice = getComputerChoice();
     playRound(e.target.id, computerChoice);
   });
