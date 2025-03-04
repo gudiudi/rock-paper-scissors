@@ -31,3 +31,14 @@ body {
   align-items: center;
   font-size:  80px;
 }
+
+.message-board {
+  font-size: 20px;
+  height: 25px;
+}
+
+.game-outcome-board {
+  font-size: 40px;
+  height: 50px;
+  font-weight: bold;
+}

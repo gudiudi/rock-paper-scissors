@@ -1,12 +1,13 @@
 let PLAYER_SCORE = 0;
 let COMPUTER_SCORE = 0;
+let ROUNDS = 0;
 
 function getComputerChoice() {
   const choices = ['rock', 'paper', 'scissors'];
   return choices[Math.floor(Math.random() * 3)]; // 0: Rock, 1: Paper, 2: Scissors
 }
 
-function createResultMsg(outcome, playerChoice, computerChoice) {
+function updateMessageBoard(outcome, playerChoice, computerChoice) {
   let message;
   if (outcome === 'win') {
     message = `You ${outcome}! ${playerChoice} beats ${computerChoice}.`;
@@ -15,35 +16,52 @@ function createResultMsg(outcome, playerChoice, computerChoice) {
   } else {
     message = `It's a draw! You both chose ${playerChoice}.`;
   }
-  return message;
+  
+  const messageBoard = document.querySelector(".message-board");
+  messageBoard.textContent = message;
 }
 
 function playRound(playerChoice, computerChoice) {
   if (playerChoice === 'rock' && computerChoice === 'paper') {
     COMPUTER_SCORE++;
-    alert(createResultMsg('lose', playerChoice, computerChoice));
+    updateMessageBoard('lose', playerChoice, computerChoice);
   } else if (playerChoice === 'paper' && computerChoice === 'scissors') {
     COMPUTER_SCORE++;
-    alert(createResultMsg('lose', playerChoice, computerChoice));
+    updateMessageBoard('lose', playerChoice, computerChoice);
   } else if (playerChoice === 'scissors' && computerChoice === 'rock') {
     COMPUTER_SCORE++;
-    alert(createResultMsg('lose', playerChoice, computerChoice));
+    updateMessageBoard('lose', playerChoice, computerChoice);
   } else if (playerChoice === computerChoice) {
     COMPUTER_SCORE++;
     PLAYER_SCORE++;
-    alert(createResultMsg('draw', playerChoice, computerChoice));
+    updateMessageBoard('draw', playerChoice, computerChoice);
   } else {
     PLAYER_SCORE++;
-    alert(createResultMsg('win', playerChoice, computerChoice));
+    updateMessageBoard('win', playerChoice, computerChoice);
   }
-
+  
   updateScoreBoard(PLAYER_SCORE, COMPUTER_SCORE);
+
+  ROUNDS++;
+  if (ROUNDS === 5) {
+    if (PLAYER_SCORE > COMPUTER_SCORE) {
+      updateGameOutcomeBoard('You won the game!');
+    } else if (PLAYER_SCORE < COMPUTER_SCORE) {
+      updateGameOutcomeBoard('You lost the game!');
+    } else {
+      updateGameOutcomeBoard('It\'s a tie!');
+    }
+  }
+}
+
+function updateGameOutcomeBoard(message) {
+  const gameOutcomeBoard = document.querySelector(".game-outcome-board");
+  gameOutcomeBoard.textContent = message;
 }
 
 function updateScoreBoard(playerScore, computerScore) {
   const playerScoreBoard = document.querySelector(".player-score");
   const computerScoreBoard = document.querySelector(".computer-score");
-  console.log(playerScoreBoard);
 
   playerScoreBoard.textContent = playerScore;
   computerScoreBoard.textContent = computerScore;
