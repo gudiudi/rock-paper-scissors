@@ -1,26 +1,9 @@
-const CHOICES = ['rock', 'paper', 'scissors'];
 let PLAYER_SCORE = 0;
 let COMPUTER_SCORE = 0;
 
-function getPlayerChoice() {
-  while (true) {
-    let playerChoice = prompt("Enter your choice: rock, paper or scissors");
-
-    if (playerChoice === null) {
-      return null;
-    }
-
-    const correctPlayerChoice = CHOICES.find((x) => x === playerChoice.toLowerCase());
-    if (!correctPlayerChoice) {
-      alert('Wrong choice!')
-    } else {
-      return playerChoice.toLowerCase();
-    }
-  }
-}
-
 function getComputerChoice() {
-  return CHOICES[Math.floor(Math.random() * 3)]; // 0: Rock, 1: Paper, 2: Scissors
+  const choices = ['rock', 'paper', 'scissors'];
+  return choices[Math.floor(Math.random() * 3)]; // 0: Rock, 1: Paper, 2: Scissors
 }
 
 function createResultMsg(outcome, playerChoice, computerChoice) {
@@ -54,17 +37,23 @@ function playRound(playerChoice, computerChoice) {
     alert(createResultMsg('win', playerChoice, computerChoice));
   }
 
-  console.log(`Player Score: ${PLAYER_SCORE}`);
-  console.log(`Computer Score: ${COMPUTER_SCORE}`);
+  updateScoreBoard(PLAYER_SCORE, COMPUTER_SCORE);
 }
 
-function playGame(rounds) {
-  for (let i = 0; i < rounds; i++) {
-    const playerChoice = getPlayerChoice();
-    if (playerChoice === null) return alert("Game cancelled.");
+function updateScoreBoard(playerScore, computerScore) {
+  const playerScoreBoard = document.querySelector(".player-score");
+  const computerScoreBoard = document.querySelector(".computer-score");
+  console.log(playerScoreBoard);
+
+  playerScoreBoard.textContent = playerScore;
+  computerScoreBoard.textContent = computerScore;
+}
+
+const buttons = document.querySelectorAll("button");
+
+buttons.forEach((button) => { // For alternative use Event Delegation?
+  button.addEventListener("click", (e) => {
     const computerChoice = getComputerChoice();
-    playRound(playerChoice, computerChoice);
-  }
-}
-
-playGame(5);
+    playRound(e.target.id, computerChoice);
+  });
+})

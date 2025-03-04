@@ -8,3 +8,26 @@ body {
   align-items: center;
   height: 100vh;
 }
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.score-board {
+  display: flex;
+  gap: 1px;
+}
+
+.player-score,
+.computer-score {
+  border: 1px solid #000;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size:  80px;
+}
